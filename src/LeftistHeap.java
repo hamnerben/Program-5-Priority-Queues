@@ -1,5 +1,19 @@
 public class LeftistHeap<AnyType extends Comparable> {
 
+    public static void  main(String[] args){
+        LeftistHeap<Integer> heap = new LeftistHeap<>();
+        heap.printTree("-");
+        Integer[] list = {3,2,4};
+        for(Integer i : list){
+            heap.insert(i);
+            System.out.println("After insert of (" + i + "):");
+            heap.printTree("-");
+            System.out.println("=========================");
+        }
+
+    }
+
+
     public LeftistHeap(){
         root = null;
     }
@@ -27,6 +41,25 @@ public class LeftistHeap<AnyType extends Comparable> {
     }
     public void MakeEmpty(){
         root = null;
+    }
+
+    public void printTree( String label )
+    {
+        System.out.println(label);
+        if( isEmpty( ) )
+            System.out.println( "Empty tree" );
+        else
+            printTree( root,"");
+    }
+
+    private void printTree( Node<AnyType> t, String indent )
+    {
+        if( t != null )
+        {
+            printTree( t.right, indent+"   " );
+            System.out.println( indent+ t.element + "("+ t.npl  +")" );
+            printTree( t.left, indent+"   " );
+        }
     }
 
     private static class Node<AnyType>{
@@ -60,4 +93,6 @@ public class LeftistHeap<AnyType extends Comparable> {
     private void swapChildren(Node<AnyType> t){
         // todo: implement later
     }
+
+
 }
