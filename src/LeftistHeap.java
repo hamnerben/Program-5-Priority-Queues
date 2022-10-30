@@ -18,11 +18,17 @@ public class LeftistHeap<AnyType extends Comparable> {
         root = null;
     }
 
+    /***
+     * Merge another Leftist heap to this heap
+     * @param rhs: the right heap sort to merge to this LeftistHeap
+     */
     public void merge(LeftistHeap<AnyType> rhs){
-        //todo: implement later
+        root = merge(root, rhs.root);
+        rhs.root = null;
     }
 
     public void insert(AnyType x){
+        root = merge(new Node<AnyType>(x), root);
         //todo: implement later
     }
 
@@ -43,6 +49,10 @@ public class LeftistHeap<AnyType extends Comparable> {
         root = null;
     }
 
+    /***
+     * Method to print a Leftist Heap
+     * @param label: the title for the heap to be printed
+     */
     public void printTree( String label )
     {
         System.out.println(label);
@@ -52,6 +62,12 @@ public class LeftistHeap<AnyType extends Comparable> {
             printTree( root,"");
     }
 
+
+    /***
+     *  Internal Method to print a LeftistHeap
+     * @param t: the root to be printed
+     * @param indent: the String to use as the indent
+     */
     private void printTree( Node<AnyType> t, String indent )
     {
         if( t != null )
@@ -76,23 +92,42 @@ public class LeftistHeap<AnyType extends Comparable> {
             right = rt;
             npl = 0;
         }
+        /***
+         * swaps the children of t.
+         * Does nothing if t is null;
+         */
+        private void swapChildren(){
+                Node<AnyType> temp = right;
+                right = left;
+                left = temp;
+        }
+
     }
 
     private Node<AnyType> root;
 
+    /***
+     * internal method for merging two heaps
+     * @param h1 the first heap to merge, has smallest item
+     * @param h2 the second heap to merge
+     * @return the new root node of the merged heap
+     */
     private Node<AnyType> merge(Node<AnyType> h1, Node<AnyType> h2){
-        // todo: implement later
-        return null; // todo: delete later
+        Node<AnyType> small;
+        if(h1 == null) return h2; // if one is null, return the other
+        if(h2 == null) return h1;
+        if(h1.element.compareTo(h2.element) < 0){
+            h1.right = merge(h1.right, h2);
+            small = h1;
+        }
+        else {
+            h2.right = merge(h2.right, h1);
+            small = h2;
+        }
+        //todo: check for Leftist Property and swap kids
+        return small;
     }
 
-    private Node<AnyType> mergeInternal(Node<AnyType> h1, Node<AnyType> h2){
-        // todo: implement later
-        return null; // todo: delete later
-    }
-
-    private void swapChildren(Node<AnyType> t){
-        // todo: implement later
-    }
 
 
 }
