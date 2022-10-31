@@ -3,7 +3,7 @@ public class LeftistHeap<AnyType extends Comparable> {
     public static void  main(String[] args){
         LeftistHeap<Integer> heap = new LeftistHeap<>();
         heap.printTree("-");
-        Integer[] list = {3,2,4};
+        Integer[] list = {3,2,4,10,9,4,1,7,8,7,34,234,65,76,23,12,87,98};
         for(Integer i : list){
             heap.insert(i);
             System.out.println("After insert of (" + i + "):");
@@ -102,6 +102,28 @@ public class LeftistHeap<AnyType extends Comparable> {
                 left = temp;
         }
 
+        /***
+         * corrects the npl for the node
+         */
+        private void updateNpl(){
+            if(right == null || left == null){
+                npl = 0;
+            }
+            else {
+                npl = (Math.min(right.npl, left.npl) + 1);
+            }
+        }
+
+        private boolean isLeftist(){
+            if(left != null && right != null){
+                return (left.npl >= right.npl);
+            }
+            if(left == null){
+                return (right == null);
+            }
+            return true; // left is not null and right is null
+        }
+
     }
 
     private Node<AnyType> root;
@@ -125,6 +147,10 @@ public class LeftistHeap<AnyType extends Comparable> {
             small = h2;
         }
         //todo: check for Leftist Property and swap kids
+        small.updateNpl(); // I think this is correct spot to do this recursively
+        if(!small.isLeftist()) { // if not leftist
+            small.swapChildren();
+        }
         return small;
     }
 
